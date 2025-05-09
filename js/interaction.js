@@ -1,1 +1,1 @@
-import * as calc from "./calculator.js" 
+import * as calc from "./calculator.js"

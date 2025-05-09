@@ -24,7 +24,7 @@
 /* gap size between each button */
 .calc .buttons,
 .input-block {
-    gap: 10px
+    gap: 20px
 }
 
 /* row class */
