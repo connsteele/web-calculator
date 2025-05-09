@@ -4,35 +4,40 @@
     flex-direction: column;
     width: 50vw;
     height: 80vh;
+    gap: 5px;
+    outline: 2px solid black;
+    border-radius: 3px;
+    justify-self: center;
 }
 
 .calc .display {
+    flex: 1;
     background-color: grey;
-    height: 100px;
-    width: 100%;
     align-content: center;
     text-align: end;
-    font-size: 32px;
+    font-size: 40px;
     font-family: 'Courier New', Courier, monospace;
-    padding: 0 10px 0 10px;
+    padding: 20px 10px 20px 10px;
 }
 
-/* comprises two divs of buttons */
-.inp-container {
-    display: flex;
-    flex-direction: row;
-}
-
+/* row class */
 .calc .buttons {
+    flex: 1;
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
 }
 
+/* column class */
 .input-block {
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
 }
 
-.calc .inp-container button {
+.calc .buttons button {
+    flex: 1;
+    width: auto;
     aspect-ratio: 1 / 1;
+    font-size: 32px;
 }
