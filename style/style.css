@@ -2,24 +2,37 @@
 .calc {
     display: flex;
     flex-direction: column;
+    width: 50vw;
+    height: 80vh;
 }
 
 .calc .display {
     background-color: grey;
-}
-
-.cols {
-    display: flex;
-    flex-direction: row;
-}
-
-.calc .display .buttons {
-    display: flex;
-    flex-direction: row;
-}
-
-.calc .cols button {
-    aspect-ratio: 1 / 1;
     height: 100px;
-    width: auto;
+    width: 100%;
+    align-content: center;
+    text-align: end;
+    font-size: 32px;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 0 10px 0 10px;
+}
+
+/* comprises two divs of buttons */
+.inp-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.calc .buttons {
+    display: flex;
+    flex-direction: row;
+}
+
+.input-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.calc .inp-container button {
+    aspect-ratio: 1 / 1;
 }
