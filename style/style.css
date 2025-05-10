@@ -53,3 +53,11 @@
     font-family: 'Courier New', Courier, monospace;
     border-radius: 5%;
 }
+
+#clear {
+    background-color: rgb(255, 137, 137);
+}
+
+.operator {
+    background-color: rgb(255, 201, 102);
+}
