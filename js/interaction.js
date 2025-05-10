@@ -130,18 +130,32 @@ function delegateKeys(event){
     // Reject input from keys that are not valid
     if (CHAR_OPERATOR.has(key))
     {
-        // Operator
-        console.log("op");
+        expression.operator = key;
     }
-    else if (Number.isInteger(+key))
+    else if (Number.isInteger(+key) || key === ".")
     {
-        // Number
-        console.log("int");
-    }
-    else if (key === ".")
-    {
-        // Decimal
-        console.log(".");
+        // update the first operand
+        if (expression.operator == "" || expression.a === "") {
+            if (key === "." && !expression.a.includes(".")) {
+                const decAdd = expression.a === "" ? "0." : ".";
+                expression.a += decAdd;
+            }
+            else if ((expression.a === 0 || expression.a === "") && key != ".")
+                expression.a = key;
+            else if (key != ".")
+                expression.a += key;
+        }
+        // update the second operand
+        else {
+            if (key === "." && !expression.b.includes(".")) {
+                const decAdd = expression.a === "" ? "0." : ".";
+                expression.b += decAdd;
+            }
+            else if ((expression.b === 0 || expression.b === "") && key != ".")
+                expression.b = key;
+            else if (key != ".")
+                expression.b += key;
+        }
     }
     else if (key == "=")
     {
@@ -150,40 +164,7 @@ function delegateKeys(event){
     }
     else
         return; // Invalid keypress
-
-    const content = key;
-
-    // Update the expression based on input
-    if (element.classList.contains("operator"))
-    {
-        expression.operator = content;
-    }
-    else if (element.classList.contains("operand") || element.id === "decimal") // operand or decimal
-    {
-        // update the first operand
-        if (expression.operator == "" || expression.a === "") {
-            if (element.id === "decimal" && !expression.a.includes(".")) {
-                const decAdd = expression.a === "" ? "0." : ".";
-                expression.a += decAdd;
-            }
-            else if ((expression.a === 0 || expression.a === "") && element.id != "decimal")
-                expression.a = content;
-            else if (element.id != "decimal")
-                expression.a += content;
-        }
-        // update the second operand
-        else {
-            if (element.id === "decimal" && !expression.b.includes(".")) {
-                const decAdd = expression.a === "" ? "0." : ".";
-                expression.b += decAdd;
-            }
-            else if ((expression.b === 0 || expression.b === "") && element.id != "decimal")
-                expression.b = content;
-            else if (element.id != "decimal")
-                expression.b += content;
-        }
-    }
-
+ 
 
 
     // Send off a custom event to update the display of the calculator
@@ -191,6 +172,7 @@ function delegateKeys(event){
         bubbles : true
         }
     );
+    const element = document.querySelector(".buttons");
     element.dispatchEvent(update);
 
 }
