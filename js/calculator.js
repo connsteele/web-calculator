@@ -15,6 +15,8 @@ export function multiply(x, y) {
 
 // divide function
 export function divide(x, y) {
+    if (y === 0)
+        return undefined;
     return x / y;
 }
 

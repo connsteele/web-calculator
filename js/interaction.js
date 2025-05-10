@@ -1,11 +1,33 @@
 import * as calc from "./calculator.js"
 
 const CHAR_OPERATOR = new Set(["+", "-", "*", "/"]);
+const MAX_DECIMAL = 4; // The maximum decimal places any operand can have
 
 let expression = {
     a : "",
     b : "",
     operator : ""
+}
+
+// Return boolean with result depending if arguement is decimal or not
+function isDecimal (number) {
+    return (number % 1) != 0;
+}
+
+// Function that sets the expression back to a default state
+function resetExpression() {
+    expression.a = 0;
+    expression.b = "";
+    expression.operator = "";
+
+    // Dispatch an update event
+    const update = new CustomEvent("update", {
+        bubbles : true    
+    });
+    const buttons = document.querySelector(".buttons");
+    buttons.dispatchEvent(update);
+
+    return;
 }
 
 // Delegate actions depending on the calculator button pressed
@@ -21,16 +43,7 @@ function delegateButtons(event){
 
     // Check for a clear request
     if (element.id === "clear") {
-        expression.a = 0;
-        expression.b = "";
-        expression.operator = "";
-
-        // Dispatch an update event
-        const update = new CustomEvent("update", {
-            bubbles : true    
-        });
-        element.dispatchEvent(update);
-
+        resetExpression();       
         return;
     }
 
@@ -39,7 +52,30 @@ function delegateButtons(event){
         // expression is valid
         if (expression.a != "" && expression.b != "" && expression.operator != "")
         {
-            const result = calc.operator(expression.operator, +expression.a, +expression.b);
+            let result = calc.operator(expression.operator, +expression.a, +expression.b);
+            // Check if the user tried to divide by 0
+            if (result === undefined) {
+                alert("Error, cannot divide by 0");
+                resetExpression();
+                return;
+            }
+
+            // Check for decimal and round if too long
+            if (isDecimal(result)){
+                const splitResult = result.toString().split("");
+                const search = ".";
+                const indexDecimal = splitResult.indexOf(search);
+                let roundFix = "1";
+                // Dynamic way to generate numbers to correct decimal rounding
+                for (let i = 0 ; i < MAX_DECIMAL ; i++)
+                {
+                    roundFix += "0";
+                }
+                roundFix = +roundFix;
+                result = splitResult.length - indexDecimal - 1 > MAX_DECIMAL ? 
+                    Math.round(result * roundFix) / roundFix : result;
+            }
+
             // Setup the expression for the next computation
             expression.a = result;
             expression.b = "";
