@@ -99,20 +99,28 @@ function delegateButtons(event){
     {
         expression.operator = content;
     }
-    else if (element.classList.contains("operand")) // operand
+    else if (element.classList.contains("operand") || element.id === "decimal") // operand or decimal
     {
         // update the first operand
         if (expression.operator == "" || expression.a === "") {
-            if (expression.a === 0 || expression.a === "")
+            if (element.id === "decimal" && !expression.a.includes(".")) {
+                const decAdd = expression.a === "" ? "0." : ".";
+                expression.a += decAdd;
+            }
+            else if ((expression.a === 0 || expression.a === "") && element.id != "decimal")
                 expression.a = content;
-            else
+            else if (element.id != "decimal")
                 expression.a += content;
         }
         // update the second operand
         else {
-            if (expression.b === 0 || expression.b === "")
+            if (element.id === "decimal" && !expression.b.includes(".")) {
+                const decAdd = expression.a === "" ? "0." : ".";
+                expression.b += decAdd;
+            }
+            else if ((expression.b === 0 || expression.b === "") && element.id != "decimal")
                 expression.b = content;
-            else
+            else if (element.id != "decimal")
                 expression.b += content;
         }
     }
