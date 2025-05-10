@@ -19,9 +19,23 @@ function delegateButtons(event){
     const content = element.textContent;
     // console.log(`${content} was clicked`);
 
+    // Check for a clear request
+    if (element.id === "clear") {
+        expression.a = 0;
+        expression.b = "";
+        expression.operator = "";
+
+        // Dispatch an update event
+        const update = new CustomEvent("update", {
+            bubbles : true    
+        });
+        element.dispatchEvent(update);
+
+        return;
+    }
+
     // Check for computation request
-    if (element.id === "compute")
-    {
+    if (element.id === "compute") {
         // expression is valid
         if (expression.a != "" && expression.b != "" && expression.operator != "")
         {
